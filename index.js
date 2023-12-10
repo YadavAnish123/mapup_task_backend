@@ -14,9 +14,9 @@ const port = 8000;
 };
 
 const sortConcurrent = async (data) => {
-  if (!Array.isArray(data.to_sort)) {
-    throw new Error('Input data is not an array.');
-  }
+  // if (!Array.isArray(data.to_sort)) {
+  //   throw new Error('Input data is not an array.');
+  // }
 
   const sortPromises = data.to_sort.map((arr) => new Promise((resolve) => {
     process.nextTick(() => {
