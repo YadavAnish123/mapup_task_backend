@@ -3,6 +3,7 @@ const { performance } = require('perf_hooks');
  const path=require('path')
 const app = express();
 const port = 8000;
+app.use(cors());
  
 
  const sortSequential = (arrays) => {
