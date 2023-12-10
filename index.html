@@ -1,0 +1,115 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorting Application</title>
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 20px;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+
+    h1, h2 {
+      color: #333;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #output {
+      white-space: pre-wrap;
+    }
+  </style>
+
+</head>
+<body>
+
+  <h1>Sorting Application</h1>
+
+  <form id="sortingForm">
+    <label for="jsonData">Enter JSON Data:</label>
+    <textarea id="jsonData" rows="5" cols="50"></textarea><br>
+    <button type="button" onclick="sortDataSeq()">Sort_sequential</button>
+    <button type="button" onclick="sortDataCon()">Sort_ concurrent</button>
+  </form>
+
+  <h2>Output:</h2>
+  <pre id="output"></pre>
+
+  <script>
+    async function sortDataSeq() {
+      const jsonData = document.getElementById('jsonData').value;
+
+      try {
+        const response = await fetch('http://localhost:8000/process-single', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ to_sort: JSON.parse(jsonData) }),
+        });
+
+        const result = await response.json();
+
+        document.getElementById('output').innerText = JSON.stringify(result, null, 2);
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('output').innerText = 'Error occurred. Please check the console for details.';
+      }
+    }
+
+
+    async function sortDataCon() {
+      const jsonData = document.getElementById('jsonData').value;
+
+      try {
+        const response = await fetch('http://localhost:8000/process-concurrent', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ to_sort: JSON.parse(jsonData) }),
+        });
+
+        const result = await response.json();
+
+        document.getElementById('output').innerText = JSON.stringify(result, null, 2);
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('output').innerText = 'Error occurred. Please check the console for details.';
+      }
+    }
+  </script>
+
+</body>
+</html>
+ 
